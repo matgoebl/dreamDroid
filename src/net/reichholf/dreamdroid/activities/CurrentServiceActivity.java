@@ -22,6 +22,7 @@ import net.reichholf.dreamdroid.intents.IntentFactory;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -321,6 +322,7 @@ public class CurrentServiceActivity extends AbstractHttpActivity {
 	
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
+		final Context ctx = this;
 
 		switch (id) {
 		case DIALOG_EPG_ITEM_ID:
@@ -368,7 +370,7 @@ public class CurrentServiceActivity extends AbstractHttpActivity {
 					buttonIMDb.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							startActivity( IntentFactory.getIMDbQueryIntent(mCurrentItem) );
+							IntentFactory.startIMDbQueryIntent( ctx, mCurrentItem.getString(Event.KEY_EVENT_TITLE) );
 							dialog.dismiss();
 						}
 					});

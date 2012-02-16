@@ -201,6 +201,7 @@
 	<string name="simple_remote">Simple remote layout</string>
 	<string name="screenshot_saved">Screenshot saved to \'%s\'</string>
 	<string name="imdb">IMDb</string>
+	<string name="google">Google</string>
 	<string name="missing_stream_player">No Player for Videostreams installed on this device!</string>
 	<string name="mediaplayer">Mediaplayer</string>
 </resources>

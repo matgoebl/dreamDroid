@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
@@ -49,6 +50,7 @@ public abstract class AbstractHttpEventListActivity extends AbstractHttpListActi
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
+		final Context ctx = this;
 		
 		if(mCurrentItem != null){
 		
@@ -98,7 +100,7 @@ public abstract class AbstractHttpEventListActivity extends AbstractHttpListActi
 					buttonIMDb.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							startActivity( IntentFactory.getIMDbQueryIntent(mCurrentItem) );
+							IntentFactory.startIMDbQueryIntent( ctx, mCurrentItem.getString(Event.KEY_EVENT_TITLE) );
 							dialog.dismiss();
 						}
 					});

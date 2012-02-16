@@ -31,6 +31,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
@@ -98,8 +99,8 @@ public class MovieListActivity extends AbstractHttpListActivity {
 		super.onCreate(savedInstanceState);
 
 		mAdapter = new SimpleAdapter(this, mMapList, R.layout.movie_list_item, new String[] { Movie.KEY_TITLE,
-				Movie.KEY_SERVICE_NAME, Movie.KEY_FILE_SIZE_READABLE, Movie.KEY_TIME_READABLE, Movie.KEY_LENGTH }, new int[] {
-				R.id.movie_title, R.id.service_name, R.id.file_size, R.id.event_start, R.id.event_duration });
+				Movie.KEY_SERVICE_NAME, Movie.KEY_FILE_SIZE_READABLE, Movie.KEY_TIME_READABLE, Movie.KEY_LENGTH, Movie.KEY_DESCRIPTION, Movie.KEY_DESCRIPTION_EXTENDED }, new int[] {
+				R.id.movie_title, R.id.service_name, R.id.file_size, R.id.event_start, R.id.event_duration, R.id.event_description, R.id.event_description_ex });
 
 		setListAdapter(mAdapter);
 		mSelectedTags = new ArrayList<String>();
@@ -360,6 +361,7 @@ public class MovieListActivity extends AbstractHttpListActivity {
 	 * @param isLong
 	 */
 	private void onListItemClick(View v, int position, long id, boolean isLong){
+		final Context ctx = this;
 		mMovie = mMapList.get(position);
 		boolean isInsta = DreamDroid.SP.getBoolean("instant_zap", false);
 		if( ( isInsta && !isLong ) || (!isInsta && isLong ) ){
@@ -367,7 +369,7 @@ public class MovieListActivity extends AbstractHttpListActivity {
 		} else {
 		
 			CharSequence[] actions = { getText(R.string.zap), getText(R.string.delete), getText(R.string.download),
-					getText(R.string.stream) };
+					getText(R.string.stream), getText(R.string.imdb), getText(R.string.google) };
 	
 			AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
 			adBuilder.setTitle(getText(R.string.pick_action));
@@ -395,6 +397,12 @@ public class MovieListActivity extends AbstractHttpListActivity {
 						} catch(ActivityNotFoundException e){
 							showToast(getText(R.string.missing_stream_player));
 						}
+						break;
+					case 4:
+						IntentFactory.startIMDbQueryIntent( ctx, mMovie.getString(Movie.KEY_TITLE) );
+						break;
+					case 5:
+						IntentFactory.startGoogleQueryIntent( ctx, mMovie.getString(Movie.KEY_TITLE) );
 						break;
 					default:
 						return;
