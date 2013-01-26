@@ -65,6 +65,7 @@ public class MovieListActivity extends AbstractHttpListActivity {
 	public static final int DIALOG_DELETE_MOVIE_CONFIRM_ID = 2;
 
 	private String mCurrentLocation;
+	private Boolean initialLocationSelection; 
 
 	private boolean mTagsChanged;
 	private boolean mReloadOnSimpleResult;
@@ -112,6 +113,7 @@ public class MovieListActivity extends AbstractHttpListActivity {
 			}
 		});
 		
+		initialLocationSelection = true;
 		reload();
 	}
 
@@ -352,6 +354,11 @@ public class MovieListActivity extends AbstractHttpListActivity {
 		if(mCurrentLocation == null){
 			setDefaultLocation();
 		}		
+		
+		if (initialLocationSelection){
+			showDialog(DIALOG_PICK_LOCATION_ID);
+			initialLocationSelection = false;
+		}
 	}
 	
 	/**
