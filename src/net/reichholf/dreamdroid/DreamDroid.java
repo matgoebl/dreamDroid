@@ -83,7 +83,8 @@ public class DreamDroid extends Application {
 		try {
 			ComponentName comp = new ComponentName(context, context.getClass());
 			PackageInfo pinfo = context.getPackageManager().getPackageInfo(comp.getPackageName(), 0);
-			return "dreamDroid " + pinfo.versionName + "\n© Stephan Reichholf\nstephan@reichholf.net";
+			return "dreamDroid " + pinfo.versionName + "\n© Stephan Reichholf\nstephan@reichholf.net" +
+			       "\n\nThis version contains minor changes by Matthias Goebl (matthias.goebl@goebl.net)";
 		} catch (android.content.pm.PackageManager.NameNotFoundException e) {
 			return "dreamDroid\n© 2010 Stephan Reichholf\nstephan@reichholf.net";
 		}

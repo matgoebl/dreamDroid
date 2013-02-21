@@ -15,9 +15,12 @@ import net.reichholf.dreamdroid.helpers.ExtendedHashMap;
 import net.reichholf.dreamdroid.helpers.Python;
 import net.reichholf.dreamdroid.helpers.enigma2.Message;
 import net.reichholf.dreamdroid.helpers.enigma2.PowerState;
+import net.reichholf.dreamdroid.helpers.enigma2.Remote;
+import net.reichholf.dreamdroid.helpers.enigma2.SimpleResult;
 import net.reichholf.dreamdroid.helpers.enigma2.SleepTimer;
 import net.reichholf.dreamdroid.helpers.enigma2.requesthandler.MessageRequestHandler;
 import net.reichholf.dreamdroid.helpers.enigma2.requesthandler.PowerStateRequestHandler;
+import net.reichholf.dreamdroid.helpers.enigma2.requesthandler.RemoteCommandRequestHandler;
 import net.reichholf.dreamdroid.helpers.enigma2.requesthandler.SleepTimerRequestHandler;
 import net.reichholf.dreamdroid.widget.NumberPicker;
 
@@ -76,6 +79,11 @@ public class MainActivity extends AbstractHttpActivity {
 	public static final int ITEM_CHECK_CONN = 17;
 	public static final int ITEM_SLEEPTIMER = 18;
 	public static final int ITEM_MEDIA_PLAYER = 19;
+	public static final int ITEM_VOLUME_DOWN = 20;
+	public static final int ITEM_VOLUME_UP = 21;
+	public static final int ITEM_PLAYPAUSE = 22;
+	public static final int ITEM_CHANNEL_DOWN = 23;
+	public static final int ITEM_CHANNEL_UP = 24;
 
 	private Button mButtonPower;
 	private Button mButtonCurrent;
@@ -91,6 +99,11 @@ public class MainActivity extends AbstractHttpActivity {
 	private Button mButtonMessage;
 	private Button mButtonAbout;
 	private Button mButtonMediaplayer;
+	private Button mButtonVolumeDown;
+	private Button mButtonVolumeUp;
+	private Button mButtonPlayPause;
+	private Button mButtonChannelDown;
+	private Button mButtonChannelUp;
 
 	private boolean mExtras;
 
@@ -301,6 +314,11 @@ public class MainActivity extends AbstractHttpActivity {
 			mButtonEpgSearch = (Button) findViewById(R.id.ButtonEpgSearch);
 			mButtonMediaplayer = (Button) findViewById(R.id.ButtonMediaplayer);
 			mButtonMediaplayer.setVisibility(View.GONE);
+			mButtonVolumeDown = (Button) findViewById(R.id.ButtonVolumeDown);
+			mButtonVolumeUp = (Button) findViewById(R.id.ButtonVolumeUp);
+			mButtonPlayPause = (Button) findViewById(R.id.ButtonPlayPause);
+			mButtonChannelDown = (Button) findViewById(R.id.ButtonChannelDown);
+			mButtonChannelUp = (Button) findViewById(R.id.ButtonChannelUp);
 			registerOnClickListener(mButtonPower, ITEM_POWERSTATE_DIALOG);
 			registerOnClickListener(mButtonCurrent, ITEM_CURRENT);
 			registerOnClickListener(mButtonMovies, ITEM_MOVIES);
@@ -309,6 +327,11 @@ public class MainActivity extends AbstractHttpActivity {
 			registerOnClickListener(mButtonRemote, ITEM_REMOTE);
 			registerOnClickListener(mButtonEpgSearch, ITEM_EPG_SEARCH);
 			registerOnClickListener(mButtonMediaplayer, ITEM_MEDIA_PLAYER);
+			registerOnClickListener(mButtonVolumeDown, ITEM_VOLUME_DOWN);
+			registerOnClickListener(mButtonVolumeUp, ITEM_VOLUME_UP);
+			registerOnClickListener(mButtonPlayPause, ITEM_PLAYPAUSE);
+			registerOnClickListener(mButtonChannelDown, ITEM_CHANNEL_DOWN);
+			registerOnClickListener(mButtonChannelUp, ITEM_CHANNEL_UP);
 		}
 
 		mSleepTimer = new ExtendedHashMap();
@@ -593,8 +616,58 @@ public class MainActivity extends AbstractHttpActivity {
 		case ITEM_MEDIA_PLAYER:
 			startActivity( new Intent(this, MediaplayerNavigationActivity.class) );
 		
+		case ITEM_VOLUME_DOWN:
+			sendRemote(Remote.KEY_VOLM);
+			return true;
+		
+		case ITEM_VOLUME_UP:
+			sendRemote(Remote.KEY_VOLP);
+			return true;
+
+		case ITEM_PLAYPAUSE:
+			sendRemote(Remote.KEY_PLAY);
+			return true;
+		
+		case ITEM_CHANNEL_DOWN:
+			sendRemote(Remote.KEY_BOUM);
+			return true;		
+
+		case ITEM_CHANNEL_UP:
+			sendRemote(Remote.KEY_BOUP);
+			return true;		
+
 		default:
 			return super.onItemClicked(id);
+		}
+	}
+
+	private void sendRemote(int id) {
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("command", new Integer(id).toString()));
+		params.add(new BasicNameValuePair("rcu", "advanced"));
+		execSimpleResultTask(new RemoteCommandRequestHandler(), params);
+	}
+
+	protected void onSimpleResult(boolean success, ExtendedHashMap result) {
+		boolean hasError = false;
+		String toastText = getString(R.string.get_content_error);					
+		String stateText = result.getString(SimpleResult.KEY_STATE_TEXT);
+		String state = result.getString(SimpleResult.KEY_STATE);		
+			
+		if (stateText == null || "".equals(stateText)) {			
+			hasError = true;
+		} 
+		
+		if (mShc.hasError()) {
+			toastText = toastText + "\n" + mShc.getErrorText();
+			hasError = true;
+		} else if (Python.FALSE.equals(state)){
+			hasError = true;
+			toastText = stateText;
+		}
+		
+		if(hasError){
+			showToast(toastText);
 		}
 	}
 

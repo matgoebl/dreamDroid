@@ -113,6 +113,47 @@
 					android:drawableLeft="@drawable/ic_menu_music" 
 					android:layout_weight="1" />
 			</LinearLayout>
+			<LinearLayout 
+				android:id="@+id/LinearLayout5"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+				<Button 
+					android:id="@+id/ButtonVolumeDown" 
+					android:text="@string/volumedown" 
+					android:layout_width="fill_parent" 
+					android:layout_height="65dp"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="1" />
+				<Button 
+					android:id="@+id/ButtonVolumeUp" 
+					android:text="@string/volumeup" 
+					android:layout_width="fill_parent" 
+					android:layout_height="65dp"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="1" />
+				<Button 
+					android:id="@+id/ButtonPlayPause" 
+					android:text="@string/playpause" 
+					android:layout_width="fill_parent" 
+					android:layout_height="65dp"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="1" />
+				<Button 
+					android:id="@+id/ButtonChannelDown" 
+					android:text="@string/channeldown" 
+					android:layout_width="fill_parent" 
+					android:layout_height="65dp"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="1" />
+				<Button 
+					android:id="@+id/ButtonChannelUp" 
+					android:text="@string/channelup" 
+					android:layout_width="fill_parent" 
+					android:layout_height="65dp"
+					android:layout_gravity="center_vertical"
+					android:layout_weight="1" />
+			</LinearLayout>
 		</LinearLayout>	
 	</ScrollView>	
 </LinearLayout>
