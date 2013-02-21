@@ -375,8 +375,8 @@ public class MovieListActivity extends AbstractHttpListActivity {
 			zapTo(mMovie.getString(Movie.KEY_REFERENCE));
 		} else {
 		
-			CharSequence[] actions = { getText(R.string.zap), getText(R.string.delete), getText(R.string.download),
-					getText(R.string.stream), getText(R.string.imdb), getText(R.string.google) };
+			CharSequence[] actions = { getText(R.string.stream), getText(R.string.zap), getText(R.string.delete), getText(R.string.download),
+					getText(R.string.imdb), getText(R.string.google) };
 	
 			AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
 			adBuilder.setTitle(getText(R.string.pick_action));
@@ -384,13 +384,13 @@ public class MovieListActivity extends AbstractHttpListActivity {
 	
 				public void onClick(DialogInterface dialog, int which) {
 					switch (which) {
-					case 0:
+					case 1:
 						zapTo(mMovie.getString(Movie.KEY_REFERENCE));
 						break;
-					case 1:
+					case 2:
 						showDialog(DIALOG_DELETE_MOVIE_CONFIRM_ID);
 						break;
-					case 2:
+					case 3:
 						ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 						params.add(new BasicNameValuePair("file", mMovie.getString(Movie.KEY_FILE_NAME)));
 						String url = mShc.buildUrl(URIStore.FILE, params);
@@ -398,7 +398,7 @@ public class MovieListActivity extends AbstractHttpListActivity {
 						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 						startActivity(intent);
 						break;
-					case 3:
+					case 0:
 						try{
 							startActivity( IntentFactory.getStreamFileIntent(mMovie.getString(Movie.KEY_FILE_NAME)) );
 						} catch(ActivityNotFoundException e){

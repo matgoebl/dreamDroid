@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -540,6 +541,9 @@ public abstract class AbstractHttpListActivity extends ListActivity {
 		mMapList.clear();
 		mMapList.addAll(list);
 		mAdapter.notifyDataSetChanged();
+		ListView mList = (ListView) findViewById(android.R.id.list);
+		mList.setFocusableInTouchMode(false);
+		mList.requestFocus();
 	}
 
 	/**
