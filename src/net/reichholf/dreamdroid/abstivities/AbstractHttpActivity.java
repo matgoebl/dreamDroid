@@ -36,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -266,6 +267,25 @@ public abstract class AbstractHttpActivity extends Activity {
 			}
 		});
 	}
+	
+	/**
+	 * Register an <code>OnLongClickListener</code> for a view and a specific item
+	 * ID (<code>ITEM_*</code> statics)
+	 * 
+	 * @param v
+	 *            The view an OnLongClickListener should be registered for
+	 * @param id
+	 *            The id used to identify the item clicked (<code>ITEM_*</code>
+	 *            statics)
+	 */
+	protected void registerOnLongClickListener(View v, final int id) {
+		v.setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				return onItemClicked(id);
+			}
+		});
+	}
 
 	/**
 	 * @param id
@@ -281,7 +301,7 @@ public abstract class AbstractHttpActivity extends Activity {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * @param progress
 	 */

@@ -319,7 +319,8 @@ public class MainActivity extends AbstractHttpActivity {
 			mButtonPlayPause = (Button) findViewById(R.id.ButtonPlayPause);
 			mButtonChannelDown = (Button) findViewById(R.id.ButtonChannelDown);
 			mButtonChannelUp = (Button) findViewById(R.id.ButtonChannelUp);
-			registerOnClickListener(mButtonPower, ITEM_POWERSTATE_DIALOG);
+			registerOnClickListener(mButtonPower, ITEM_TOGGLE_STANDBY);
+			registerOnLongClickListener(mButtonPower, ITEM_POWERSTATE_DIALOG);
 			registerOnClickListener(mButtonCurrent, ITEM_CURRENT);
 			registerOnClickListener(mButtonMovies, ITEM_MOVIES);
 			registerOnClickListener(mButtonServices, ITEM_SERVICES);
