@@ -626,7 +626,7 @@ public class MainActivity extends AbstractHttpActivity {
 			return true;
 
 		case ITEM_PLAYPAUSE:
-			sendRemote(Remote.KEY_PLAY);
+			sendRemote(Remote.KEY_PAUSE);
 			return true;
 		
 		case ITEM_CHANNEL_DOWN:
